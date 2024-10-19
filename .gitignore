@@ -35,7 +35,6 @@ logs
 node_modules
 bower_components
 
-./Backend/main/'.env'
 
 
 *.sublime*
@@ -43,5 +42,8 @@ bower_components
 psd
 thumb
 sketch
+
+# Exclude .env file
+backend/main/.env
 
 # End of https://www.toptal.com/developers/gitignore/api/react
