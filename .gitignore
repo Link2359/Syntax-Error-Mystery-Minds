@@ -35,6 +35,9 @@ logs
 node_modules
 bower_components
 
+./Backend/main/'.env'
+
+
 *.sublime*
 
 psd
