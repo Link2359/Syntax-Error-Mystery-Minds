@@ -7,14 +7,14 @@ const GuessForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate the guess with the backend AI
+    
     const validationResult = await validateGuess(guess);
     setResult(validationResult ? 'Correct!' : 'Wrong, try again.');
   };
 
   const validateGuess = async (guess) => {
-    // Simulate an API call to validate the guess with ML model
-    const correctAnswer = 'Winston Churchill'; // This would come from the backend
+    
+    const correctAnswer = 'Winston Churchill'; 
     return guess.toLowerCase() === correctAnswer.toLowerCase();
   };
 

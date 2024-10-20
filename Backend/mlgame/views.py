@@ -16,6 +16,8 @@ def index(request):
         charge_fees(2*1000000000000000000)
         temp_ans=chatbot('','abc111')
         print(temp_ans)
+        answer=personality('abc111')
+        print(answer)
         return HttpResponse('Ok')
 
     return HttpResponse('home page')
@@ -26,13 +28,8 @@ def answer(request):
         body_unicode = request.body.decode('utf-8')
         body_data = json.loads(body_unicode)
         user_prompt = body_data.get('question')
-        # answer=somefunc(user_prompt)
-        # print(request.session['address'])
+    
         answer=chatbot(user_prompt,'abc111')
-        # answer='Yes'
-
-        # temp_answer=personality('abc111')
-        # print(temp_answer)
 
         if answer.lower()=='yes':
             return JsonResponse({'answer': 'Yes'})
@@ -51,15 +48,9 @@ def character(request):
         questions = body_data.get('questionCount')
 
         answer=personality('abc111')
-        # answer='Yes'
 
         print(final_answer,questions,answer)
 
-        # get from session string
-        # user_address='0x4061afC1373556CB0D39909cC8Ce5FBf62928c07'
-        # user_address=request.session['address']
-
-        # calculate based on turns
         reward_amount=int(((1+(10-questions)*0.1*4)*1000000000000000000))
 
         reset()

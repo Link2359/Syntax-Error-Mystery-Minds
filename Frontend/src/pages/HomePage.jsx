@@ -1,31 +1,31 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import axios
-import img from "../../public/sander-sammy-HoOP0nxd8eg-unsplash.jpg"; // Adjust the image path as necessary
+import axios from 'axios'; 
+import img from "../../public/sander-sammy-HoOP0nxd8eg-unsplash.jpg"; 
 
 const HomePage = () => {
-  const [account, setAccount] = useState(''); // Store the user's inputted address
+  const [account, setAccount] = useState('');
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false); // Loading state for handling ongoing requests
+  const [isLoading, setIsLoading] = useState(false); 
   const navigate = useNavigate();
 
-  // Function to handle user input change
+ 
   const handleInputChange = (e) => {
-    setAccount(e.target.value); // Update account with user input
+    setAccount(e.target.value); 
   };
 
-  // Function to handle "Let's Play" click
+  
   const handleLetsPlay = async () => {
     if (account) {
-      setIsLoading(true); // Set loading while making request
+      setIsLoading(true); 
       try {
-        // Send a POST request with the user's address using axios
+        
         const response = await axios.post('http://127.0.0.1:8000/', {
-          account, // Send user's MetaMask address
+          account, 
         });
 
         if (response.status === 200) {
-          navigate('/game'); // Navigate to the game page if the request is successful
+          navigate('/game'); 
         } else {
           throw new Error('Failed to start the game. Please try again.');
         }
@@ -34,7 +34,7 @@ const HomePage = () => {
           message: err.response?.data?.message || 'Something went wrong. Please try again.',
         });
       } finally {
-        setIsLoading(false); // Stop loading after request completes
+        setIsLoading(false); 
       }
     } else {
       setError({ message: 'Please enter your MetaMask address to continue.' });
@@ -64,6 +64,11 @@ const HomePage = () => {
           className="metamask-input w-full px-4 py-2 text-2xl text-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-inner"
         />
         {error && <p className="error-message text-red-500">{error.message}</p>}
+
+        
+        <p className="text-white text-center text-lg mt-4">
+          A fee of <span className="text-indigo-400 font-bold">2 ethers</span> will be deducted from your address to play the game.
+        </p>
 
         <button
           onClick={handleLetsPlay}

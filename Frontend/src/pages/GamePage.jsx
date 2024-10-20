@@ -1,46 +1,46 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
+import { useNavigate } from 'react-router-dom'; 
 import ChatBox from '../components/ChatBox';
 import QuestionForm from '../components/QuestionForm';
 import axios from 'axios';
 
 const GamePage = () => {
   const [messages, setMessages] = useState([]);
-  const [gamePhase, setGamePhase] = useState('question'); // 'question' or 'guess'
-  const [questionCount, setQuestionCount] = useState(0); // Track the number of questions asked
-  const [guess, setGuess] = useState(''); // Store the user's guess
-  const [error, setError] = useState(null); // Error handling
-  const [isLoading, setIsLoading] = useState(false); // Loading state
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [gamePhase, setGamePhase] = useState('question'); 
+  const [questionCount, setQuestionCount] = useState(0); 
+  const [guess, setGuess] = useState(''); 
+  const [error, setError] = useState(null); 
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
-  // Add user question and AI response to the chat
+
   const handleNewMessage = (userMessage, aiResponse) => {
     setMessages((prev) => [
       ...prev,
       { sender: 'user', text: userMessage },
       { sender: 'ai', text: aiResponse },
     ]);
-    setQuestionCount((prev) => prev + 1); // Increment question count after each question
+    setQuestionCount((prev) => prev + 1); 
   };
 
-  // Transition to guess phase manually
+
   const handleEndQuestions = () => {
     setGamePhase('guess');
   };
 
-  // Automatically transition to guess phase if questionCount reaches 10
+  
   useEffect(() => {
     if (questionCount >= 10) {
       setGamePhase('guess');
     }
   }, [questionCount]);
 
-  // Handle user guess input change
+  
   const handleGuessChange = (e) => {
-    setGuess(e.target.value); // Update guess state when user types
+    setGuess(e.target.value);
   };
 
-  // Handle user guess submission
+  
   const handleGuessSubmit = async () => {
     if (!guess) {
       setError('Please enter a personality name.');
@@ -50,13 +50,12 @@ const GamePage = () => {
     setIsLoading(true);
 
     try {
-      // Make a POST request to the backend with the guess and question count
+      
       const response = await axios.post('http://127.0.0.1:8000/character', {
         guess,
         questionCount,
       });
 
-      // Handle the response, e.g., show a success message
       if (response.status === 200) {
         const result = response.data.answer;
         setMessages((prev) => [
@@ -64,15 +63,15 @@ const GamePage = () => {
           { sender: 'system', text: `Your guess: "${guess}" was ${result}!` },
         ]);
 
-        // Alert the user about the result
+        
         if (result === 'Correct') {
           alert(`Your guess: "${guess}" was ${result}! Ethers have been added to your account as a reward!`);
         } else {
           alert(`Your guess: "${guess}" was ${result}!`);
         }
 
-        // Redirect to home page after alert
-        navigate('/'); // Change the path if your home page is at a different route
+        
+        navigate('/');
       }
     } catch (error) {
       setError('An error occurred while submitting your guess.');
